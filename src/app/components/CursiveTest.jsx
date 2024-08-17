@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 const CursiveTest = () => {
   const drawText = (ctx, canvas) => {
     // Set the font size dynamically based on canvas size
-    const fontSize = Math.min(canvas.width, canvas.height) / 2; // Adjust size relative to canvas
+    const fontSize = Math.min(canvas.width, canvas.height)/2 ; 
     ctx.font = `${fontSize}px "Cedarville Cursive"`;
 
     // Measure the text size
@@ -17,9 +17,9 @@ const CursiveTest = () => {
     const y = (canvas.height + textHeight) / 2;
 
     // Clear the canvas before drawing
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+   // ctx.clearRect(0, 0, canvas.width, canvas.height); make transparent alpha = 0, optional
 
-    // Render the word "Hello" centered on the canvas
+    // Render the word on screen
     ctx.fillStyle = '#b0b0ae';
     ctx.fillText(text, x, y);
 
@@ -40,14 +40,14 @@ const CursiveTest = () => {
 
       const resizeCanvas = () => {
         // Set the canvas dimensions relative to the viewport size
-        canvas.width = window.innerWidth * 0.9; // 90% of viewport width
-        canvas.height = window.innerHeight * 0.7; // 70% of viewport height
+        canvas.width = window.innerWidth * 0.9;
+        canvas.height = window.innerHeight * 0.7; 
 
         // Redraw the text when the canvas size changes
         textImageData = drawText(ctx, canvas);
       };
 
-      // Initial canvas setup
+      // Initialize
       resizeCanvas();
 
       // Redraw on window resize
@@ -58,6 +58,8 @@ const CursiveTest = () => {
       ctx.lineWidth = 5; // Thickness of the tracing brush
       ctx.lineCap = 'round'; // Smooth edges for the brush
 
+
+      //drawing code
       const startPosition = (e) => {
         painting = true;
         draw(e);
@@ -76,8 +78,8 @@ const CursiveTest = () => {
         const y = e.clientY - canvas.offsetTop;
 
         // Get the pixel data at the cursor position
-        const pixelIndex = (y * canvas.width + x) * 4;
-        const alpha = textImageData.data[pixelIndex + 3]; // Alpha value of the pixel
+        const pixelIndex = (y * canvas.width + x) * 4; //y*canvas.width: finds us the row. +x: for a specific pixel in row.  x4 because each pxiel is 4
+        const alpha = textImageData.data[pixelIndex + 3]; // since eahc pixel is size of 4 (R,G,B,Alpha), we +3 to find alpha value (opacity)
 
         // Only draw if the pixel is part of the text (alpha > 0)
         if (alpha > 0) {
