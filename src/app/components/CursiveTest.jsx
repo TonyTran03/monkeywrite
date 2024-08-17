@@ -67,7 +67,7 @@ const CursiveTest = () => {
     };
   }, [word]);
 
-  // Handle user drawing with a smoothed quadratic Bézier curve
+  // Handle user drawing with even more lerping for smoother curves
   useEffect(() => {
     const canvas = document.getElementById('cursiveCanvas');
     const ctx = canvas.getContext('2d');
@@ -96,6 +96,10 @@ const CursiveTest = () => {
     ctx.lineWidth = 8; 
     ctx.lineCap = 'round'; 
 
+    const lerp = (start, end, t) => {
+      return start + (end - start) * t;
+    };
+
     const draw = (e) => {
       if (!painting) return;
 
@@ -106,19 +110,19 @@ const CursiveTest = () => {
       points.push({ x, y });
 
       if (points.length < 3) {
-        // We need at least 3 points to draw a curve
         return;
       }
 
-      // Averaging the points to smooth the curve
+      //  lerping for smoother curves
       const p1 = points[points.length - 3];
       const p2 = points[points.length - 2];
       const p3 = points[points.length - 1];
 
-      const cp1x = (p1.x + p2.x) / 2;
-      const cp1y = (p1.y + p2.y) / 2;
-      const cp2x = (p2.x + p3.x) / 2;
-      const cp2y = (p2.y + p3.y) / 2;
+      // Control points for even smoother curves with more lerping
+      const cp1x = lerp(p1.x, p2.x, 0.5); 
+      const cp1y = lerp(p1.y, p2.y, 0.5);
+      const cp2x = lerp(p2.x, p3.x, 0.5);
+      const cp2y = lerp(p2.y, p3.y, 0.5);
 
       ctx.quadraticCurveTo(cp1x, cp1y, cp2x, cp2y);
       ctx.stroke();
