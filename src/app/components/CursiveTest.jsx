@@ -8,7 +8,7 @@ const CursiveTest = () => {
     ctx.font = `${fontSize}px "Cedarville Cursive"`;
 
     // Measure the text size
-    const text = 'H';
+    const text = 'lerp';
     const textWidth = ctx.measureText(text).width;
     const textHeight = fontSize; // The height is approximately equal to the font size
 
