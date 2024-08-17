@@ -19,7 +19,7 @@
 }
 
 body {
-
+overflow: hidden;
 }
 
 @layer utilities {
